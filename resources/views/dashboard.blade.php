@@ -37,16 +37,25 @@
                             <div class="flex-1 p-2 sm:p-6 justify-between flex flex-col h-3/4 overflow-scroll">
                                 @foreach($messages as $message)
                                     <div id="messages"
-                                         class="flex flex-col space-y-4 p-3 "
+                                         class="flex flex-col p-1 "
                                         wire:key="message-{{$message->id}}">
                                         <div>
                                             <div>
                                                 <div class="flex items-end justify-end">
-                                                    <div class="flex flex-col space-y-2 text-md leading-tight max-w-lg mx-2 order-1 items-end">
+                                                    <div class="flex flex-col  text-md leading-tight max-w-lg mx-2 order-1 items-end">
                                                         <div>
-                                                        <span class="px-4 py-3 rounded-xl inline-block rounded-br-none bg-blue-500 text-white">
+                                                        <div class="px-4 py-3 rounded-xl inline-block rounded-br-none bg-blue-500 text-white">
                                                             {{ $message->body  }}
-                                                        </span>
+                                                        </div>
+                                                            <div class="items-end flex justify-end">
+                                                                @if($message->status === 'queued')
+                                                                    <i class="fas fa-check text-gray-400"></i>
+                                                                @elseif ($message->status === 'delivered')
+                                                                    <i class="fas fa-check text-green-400"></i>
+                                                                @else
+                                                                    <i class="fas fa-times text-red-500"></i>
+                                                                @endif
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
