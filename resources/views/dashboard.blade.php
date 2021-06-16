@@ -72,6 +72,14 @@
                                             </button>
                                         </div>
                                     </div>
+                                    <div>
+                                        @if ($alertFm = Session::get('error'))
+                                            <div class="alert alert-warning alert-block">
+                                                <button type="button" class="close" data-dismiss="alert"> <i class="fas fa-times text-red-500"></i></button>
+                                                <strong>{{ $alertFm }}</strong>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>

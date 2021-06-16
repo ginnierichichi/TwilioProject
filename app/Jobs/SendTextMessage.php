@@ -71,6 +71,9 @@ class SendTextMessage implements ShouldQueue
 
     public function failed()
     {
-        //
+        $this->message->status = 'failed';
+
+        $this->message->save();
+        //to do: send message to user
     }
 }

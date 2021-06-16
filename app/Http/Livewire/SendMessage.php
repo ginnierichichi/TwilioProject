@@ -31,14 +31,14 @@ class SendMessage extends Component
     {
         $this->number = AddressBook::make();
         $this->message = Message::make();
-
     }
-
 
     public function addNumber()
     {
         $this->validate([ 'number.phone' => 'required|unique:address_books|numeric',]);
         $this->number->save();
+
+        $this->number = AddressBook::make();
     }
 
     public function openMessage($messageId)
@@ -46,13 +46,15 @@ class SendMessage extends Component
         $this->messageId = $messageId;
     }
 
+    //to do: Verify phone number through twilio
+    // status callback to update if delivered or failed.
+
     public function send()
     {
-//        try {
-//            $this->rateLimit(10);
+        $this->validateOnly('message.body');
 
-
-            $this->validateOnly('message.body');
+        try {
+            $this->rateLimit(1, 5);
 
             $message = new Message();
 
@@ -64,11 +66,17 @@ class SendMessage extends Component
             SendTextMessage::dispatch($message->load('addressBook'));
 
 
-//        } catch (TooManyRequestsException $exception) {
+        } catch (TooManyRequestsException $exception) {
+
+            session()->flash('error',"Slow down! Please wait another $exception->secondsUntilAvailable seconds to log in." );
+            return;
+
 //            $this->addError('email', "Slow down! Please wait another $exception->secondsUntilAvailable seconds to log in.");
 //
 //            return;
-//        }
+        }
+
+        $this->message = Message::make();
     }
 
     public function render()
