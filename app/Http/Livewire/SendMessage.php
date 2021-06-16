@@ -37,7 +37,7 @@ class SendMessage extends Component
 
     public function addNumber()
     {
-        $this->validate([ 'number.phone' => 'required|unique:users_phone_number|numeric',]);
+        $this->validate([ 'number.phone' => 'required|unique:address_books|numeric',]);
         $this->number->save();
     }
 
@@ -74,7 +74,7 @@ class SendMessage extends Component
     public function render()
     {
         return view('dashboard', [
-            'numbers' => AddressBook::all(),
+            'numbers' => AddressBook::orderBy('created_at', 'desc')->get(),
             'messages' => Message::where('address_book_id', $this->messageId)->with('addressBook', 'user')->get(),
         ]);
     }

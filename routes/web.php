@@ -21,3 +21,5 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth:sanctum'], static function () {
     Route::get('/dashboard', SendMessage::class)->name('dashboard');
 });
+
+Route::get('/callback', SendMessage::class)->middleware('twilio.validate')->name('callback');

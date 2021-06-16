@@ -22,29 +22,30 @@
                 </div>
 {{--                @dd($numbers->first())--}}
                 @foreach($numbers as $number)
-                <div class="bg-white rounded-lg shadow-md mb-4 p-4 {{ $number->id === $messageId ? 'bg-indigo-200' : '' }}" >
-                   <button wire:click="openMessage({{ $number->id }})" wire:key="number-{{$number->id}}"> {{ $number->phone }}</button>
+                <div wire:key="number-{{$number->id}}" wire:click="openMessage({{ $number->id }})" class="bg-white cursor-pointer rounded-lg shadow-md mb-4 p-4 {{ $number->id === $messageId ? 'bg-indigo-200' : '' }}" >
+                   <div> {{ $number->phone }}</div>
                 </div>
                 @endforeach
             </div>
 
-            <div class=" w-7/12 bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
+            <div class="w-7/12 max-h-full">
                 @if($messageId)
-                    <div class="">
-                        <div class="pb-6">Send a Message</div>
+                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4 ">
+                        <div>Send a Message</div>
 
-                        <div  class="overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch my-6 border rounded-lg">
-                            <div class="flex-1 p-2 sm:p-6 justify-between flex flex-col h-full ">
+                        <div  class="h-full  overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch my-6 border rounded-lg">
+                            <div class="flex-1 p-2 sm:p-6 justify-between flex flex-col h-3/4 overflow-scroll">
                                 @foreach($messages as $message)
                                     <div id="messages"
-                                         class="flex flex-col space-y-4 p-3">
+                                         class="flex flex-col space-y-4 p-3 "
+                                        wire:key="message-{{$message->id}}">
                                         <div>
                                             <div>
                                                 <div class="flex items-end justify-end">
                                                     <div class="flex flex-col space-y-2 text-md leading-tight max-w-lg mx-2 order-1 items-end">
                                                         <div>
                                                         <span class="px-4 py-3 rounded-xl inline-block rounded-br-none bg-blue-500 text-white">
-                                                                {{ $message->body  }}
+                                                            {{ $message->body  }}
                                                         </span>
                                                         </div>
                                                     </div>

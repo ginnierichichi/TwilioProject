@@ -6,9 +6,12 @@ use App\Models\Message;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Redis\LimiterTimeoutException;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Redis;
+use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
 class SendTextMessage implements ShouldQueue
@@ -37,25 +40,34 @@ class SendTextMessage implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws LimiterTimeoutException
      */
-    public function handle()
+    public function handle(): void
     {
-        $account_sid = getenv("TWILIO_SID");
-        $auth_token = getenv("TWILIO_AUTH_TOKEN");
-        $twilio_number = getenv("TWILIO_NUMBER");
-        $client = new Client($account_sid, $auth_token);
+        Redis::throttle('SendTextMessage')->allow(1)->every(5)->block(10)->then(function () {
+            $account_sid = config('services.twilio.key');
+            $auth_token = config('services.twilio.secret');
+            $twilio_number = config('services.twilio.number');
 
-        $message = $this->message;
+            $client = new Client($account_sid, $auth_token);
+            $message = $this->message;
 
-        $client->messages->create(
-            $message->addressBook->phone,
-            [
-                'from' => $twilio_number,
-                'body' => $message->body,
-//                'statusCallBack' => ''
-            ] );
+            $response = $client->messages->create(
+                $message->addressBook->phone,
+                [
+                    'from' => $twilio_number,
+                    'body' => $message->body,
+                    'statusCallBack' => 'https://0e68094f2f7d.ngrok.io/callback',
+                ] );
+
+            $this->message->status = $response->status;
+            $this->message->save();
+        }, function () {
+            $this->release(10);
+        });
 
     }
+
 
     public function failed()
     {
