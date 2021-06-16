@@ -22,7 +22,7 @@ class SendMessage extends Component
     public function rules()
     {
        return [
-           'number.phone' => 'required|unique:users_phone_number|numeric',
+           'number.phone' => 'required',
            'message.body' => 'required',
            ];
     }
@@ -37,7 +37,7 @@ class SendMessage extends Component
 
     public function addNumber()
     {
-        $this->validate([ 'number.phone' => 'required',]);
+        $this->validate([ 'number.phone' => 'required|unique:users_phone_number|numeric',]);
         $this->number->save();
     }
 
@@ -48,31 +48,27 @@ class SendMessage extends Component
 
     public function send()
     {
-        try {
+//        try {
 //            $this->rateLimit(10);
 
-            $this->validate();
 
-            $message = Message::create([
-                'user_id' => auth()->id(),
-                'address_book_id' => $this->messageId,
-                'body' => $this->message->body,
-            ]);
+            $this->validateOnly('message.body');
 
+            $message = new Message();
 
-//            $this->message->user_id = auth()->id();
-//            $this->message->address_book_id = $this->messageId;
+            $message->user_id = auth()->id();
+            $message->address_book_id = $this->messageId;
+            $message->body = $this->message->body;
+            $message->save();
 
-//            $this->message->save();
-
-            SendTextMessage::dispatch($message);
+            SendTextMessage::dispatch($message->load('addressBook'));
 
 
-        } catch (TooManyRequestsException $exception) {
-            $this->addError('email', "Slow down! Please wait another $exception->secondsUntilAvailable seconds to log in.");
-
-            return;
-        }
+//        } catch (TooManyRequestsException $exception) {
+//            $this->addError('email', "Slow down! Please wait another $exception->secondsUntilAvailable seconds to log in.");
+//
+//            return;
+//        }
     }
 
     public function render()

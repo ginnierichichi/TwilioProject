@@ -28,13 +28,13 @@
                 @endforeach
             </div>
 
-            <div class=" w-7/12 bg-white overflow-hidden shadow-xl sm:rounded-lg p-4 ">
+            <div class=" w-7/12 bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
                 @if($messageId)
                     <div class="">
                         <div class="pb-6">Send a Message</div>
 
                         <div  class="overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch my-6 border rounded-lg">
-                            <div class="flex-1 p-2 sm:p-6 justify-between flex flex-col h-56 ">
+                            <div class="flex-1 p-2 sm:p-6 justify-between flex flex-col h-full ">
                                 @foreach($messages as $message)
                                     <div id="messages"
                                          class="flex flex-col space-y-4 p-3">

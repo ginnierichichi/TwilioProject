@@ -48,11 +48,11 @@ class SendTextMessage implements ShouldQueue
         $message = $this->message;
 
         $client->messages->create(
-            $message->phone,
+            $message->addressBook->phone,
             [
                 'from' => $twilio_number,
                 'body' => $message->body,
-                'statusCallBack' => ''
+//                'statusCallBack' => ''
             ] );
 
     }
