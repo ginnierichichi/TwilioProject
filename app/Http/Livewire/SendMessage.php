@@ -30,7 +30,7 @@ class SendMessage extends Component
     {
        return [
            'number.phone' => 'required',
-           'message.body' => 'required',
+           'message.body' => 'required|max:250',
            ];
     }
 

@@ -23,7 +23,8 @@
 
             <div class="mt-4">
                 <x-jet-label for="twilio_phone" value="{{ __('Phone Number') }}" />
-                <x-jet-input id="twilio_phone" class="block mt-1 w-full focus:outline-none border border-gray-200 py-2" type="twilio_phone" name="twilio_phone" :value="old('twilio_phone')" placeholder="+4412345678" required />
+                <x-jet-input id="twilio_phone" class="block mt-1 w-full focus:outline-none border border-gray-200 py-2" type="twilio_phone" name="twilio_phone" :value="old('twilio_phone)" required />
+
             </div>
 
             <div class="mt-4">
