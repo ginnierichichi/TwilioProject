@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Livewire\SendMessage;
+use App\Http\Livewire\VerifyPhoneNumber;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/verify', VerifyPhoneNumber::class)->name('verify');
 
 Route::group(['middleware' => 'auth:sanctum'], static function () {
     Route::get('/dashboard', SendMessage::class)->name('dashboard');

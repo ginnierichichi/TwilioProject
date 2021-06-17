@@ -16,7 +16,6 @@ class CreateAddressBooksTable extends Migration
         Schema::create('address_books', function (Blueprint $table) {
             $table->id();
             $table->string('phone')->unique();
-//            $table->boolean('isVerified')->default(false);
             $table->timestamps();
         });
     }

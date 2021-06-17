@@ -53,28 +53,6 @@ class SendTextMessage implements ShouldQueue
         });
 
 
-//        Redis::throttle('SendTextMessage')->allow(1)->every(5)->block(10)->then(function () {
-//            $account_sid = config('services.twilio.key');
-//            $auth_token = config('services.twilio.secret');
-//            $twilio_number = config('services.twilio.number');
-//
-//            $client = new Client($account_sid, $auth_token);
-//            $message = $this->message;
-//
-//            $response = $client->messages->create(
-//                $message->addressBook->phone,
-//                [
-//                    'from' => $twilio_number,
-//                    'body' => $message->body,
-//                    'statusCallBack' => 'https://0e68094f2f7d.ngrok.io/callback',
-//                ] );
-//
-//            $this->message->status = $response->status;
-//            $this->message->save();
-//        }, function () {
-//            $this->release(10);
-//        });
-
     }
 
 

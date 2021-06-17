@@ -9,6 +9,8 @@ use App\Models\Message;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
 use http\Env\Request;
+use Illuminate\Support\Facades\Validator;
+use Laravel\Jetstream\Jetstream;
 use Livewire\Component;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
@@ -57,28 +59,23 @@ class SendMessage extends Component
      */
     public function addNumber()
     {
-//        $data = $request->validate([
-//
-//            'number.phone' => 'required|unique:users|numeric',
-//        ]);
-//
-//        $twilio_sid = config('services.twilio.key');
-//        $token = config('services.twilio.secret');
-//        $twilio_verify_sid = config('services.twilio.verify');
-//
-//
-//        $twilio = new Client($twilio_sid, $token);
-//        $twilio->verify->v2->services($twilio_verify_sid)
-//            ->verifications
-//            ->create($data['phone_number'], "sms");
-//        User::create([
-//            'name' => $data['name'],
-//            'phone_number' => $data['phone_number'],
-//            'password' => Hash::make($data['password']),
-//        ]);
+        $this->validate([
+            'number.phone' => ['required', 'numeric', 'min:10' , 'regex:/^\\(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4})(\s?\#(\d{4}|\d{3}))?$/', 'min:10'],
+        ]);
 
-        $this->validate([ 'number.phone' => 'required|numeric',]);
-        $this->number->save();
+        $twilio_sid = config('services.twilio.key');
+        $token = config('services.twilio.secret');
+
+        $twilio = new Client($twilio_sid, $token);
+
+        $twilio->lookups->v1->phoneNumbers($this->number->phone)
+            ->fetch(["countryCode" => "GB"]);
+
+        $replace = preg_replace('/^0/', '+44', $this->number['phone']);
+
+        AddressBook::create([
+            'phone' => $replace
+        ]);
 
         $this->number = AddressBook::make();
     }
@@ -109,10 +106,10 @@ class SendMessage extends Component
             $message->user_id = auth()->id();
             $message->address_book_id = $this->messageId;
             $message->body = $this->message->body;
+
             $message->save();
 
             SendTextMessage::dispatch($message->load('addressBook'));
-
 
         } catch (TooManyRequestsException $exception) {
 
