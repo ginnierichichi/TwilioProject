@@ -51,9 +51,9 @@
                                                                 @if($message->status === 'queued')
                                                                     <i class="fas fa-check text-gray-400"></i>
                                                                 @elseif ($message->status === 'delivered')
-                                                                    <i class="fas fa-check text-green-400"></i>
+                                                                    <i class="fas fa-check text-green-300"></i>
                                                                 @else
-                                                                    <i class="fas fa-times text-red-500"></i>
+                                                                    <i class="fas fa-times text-red-300"></i>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -65,7 +65,7 @@
                                 @endforeach
                                 <div class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
                                     <div class="relative flex">
-                                        <input type="text"  wire:model.defer="message.body" :error="$errors->first('message.body')" placeholder="Say something..." autocomplete="off" autofocus="true" @keydown.enter="send" class="text-md w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-5 pr-16 bg-gray-100 border-2 border-gray-200 focus:border-blue-500 rounded-full py-2" x-ref="input" />
+                                        <input type="text"  wire:model.defer="message.body" :error="$errors->first('message.body')" placeholder="Say something..." autocomplete="off" autofocus="true" @keydown.enter="send" class="text-md w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-5 pr-16 bg-gray-100 border-2 border-gray-200 focus:border-indigo-400 rounded-full py-2" x-ref="input" />
                                         <div class="absolute right-2 items-center inset-y-0 hidden sm:flex">
                                             <button type="button" wire:click="send"  class="inline-flex items-center justify-center rounded-full h-8 w-8 transition duration-200 ease-in-out text-white bg-pink-300 hover:bg-blue-600 focus:outline-none" @click.prevent="updateChat($refs.input)">
                                                 <i class="fas fa-arrow-right"></i>

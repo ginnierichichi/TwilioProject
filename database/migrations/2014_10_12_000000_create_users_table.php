@@ -19,7 +19,6 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('twilio_phone')->unique();
-            $table->boolean('isVerified')->default(false);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

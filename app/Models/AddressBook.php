@@ -12,7 +12,7 @@ class AddressBook extends Model
     /**
      * @var array
      */
-    protected $fillable = ['phone'];
+    protected $fillable = ['user_id', 'phone'];
 
     public function user()
     {

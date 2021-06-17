@@ -28,7 +28,6 @@ class User extends Authenticatable
         'email',
         'password',
         'twilio_phone',
-        'isVerified'
     ];
 
     /**
@@ -60,6 +59,11 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function numbers()
+    {
+        return $this->hasMany(AddressBook::class);
+    }
 
     public function messages()
     {

@@ -6,6 +6,7 @@ use App\Api\Twilio;
 use App\Jobs\SendTextMessage;
 use App\Models\AddressBook;
 use App\Models\Message;
+use App\Models\User;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
 use http\Env\Request;
@@ -74,6 +75,7 @@ class SendMessage extends Component
         $replace = preg_replace('/^0/', '+44', $this->number['phone']);
 
         AddressBook::create([
+            'user_id' => auth()->id(),
             'phone' => $replace
         ]);
 
@@ -87,9 +89,6 @@ class SendMessage extends Component
     {
         $this->messageId = $messageId;
     }
-
-    //to do: Verify phone number through twilio
-    // status callback to update if delivered or failed.
 
     /**
      * @throws \Illuminate\Validation\ValidationException
@@ -123,8 +122,8 @@ class SendMessage extends Component
     public function render()
     {
         return view('dashboard', [
-            'numbers' => AddressBook::orderBy('created_at', 'desc')->get(),
-            'messages' => Message::where('address_book_id', $this->messageId)->with('addressBook', 'user')->get(),
+            'numbers' => AddressBook::orderBy('created_at', 'desc')->where('user_id', auth()->id())->get(),
+            'messages' => Message::where('address_book_id', $this->messageId)->where('user_id', auth()->id())->with('addressBook', 'user')->get(),
         ]);
     }
 }
