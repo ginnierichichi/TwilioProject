@@ -1,7 +1,6 @@
 <?php
 namespace App\Api;
 use App\Models\Message;
-use Illuminate\Http\Request;
 use Twilio\Exceptions\ConfigurationException;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;

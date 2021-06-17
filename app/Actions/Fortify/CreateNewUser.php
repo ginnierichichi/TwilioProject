@@ -6,8 +6,10 @@ use App\Models\User;
 use http\Client\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
+use Twilio\Exceptions\ConfigurationException;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
@@ -17,13 +19,13 @@ class CreateNewUser implements CreatesNewUsers
 
     /**
      * @param array $input
-     * @throws \Illuminate\Validation\ValidationException
-     * @throws \Twilio\Exceptions\ConfigurationException
-     * @throws \Twilio\Exceptions\TwilioException
+     * @return mixed
+     * @throws ValidationException
+     * @throws ConfigurationException
+     * @throws TwilioException
      */
-    public function create(array $input)
+    public function create(array $input): mixed
     {
-        // /^\\(\+44\s?\d{4}|\(?0\d{4}\)?\\s?\\d{3,4}\\s?\\d{3,4}(\\s?\\#(\\d{4}|\\d{3}))?$/
 
         $data =  Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],

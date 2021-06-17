@@ -6,13 +6,14 @@ use App\Api\Twilio;
 use App\Jobs\SendTextMessage;
 use App\Models\AddressBook;
 use App\Models\Message;
-use App\Models\User;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
-use http\Env\Request;
-use Illuminate\Support\Facades\Validator;
-use Laravel\Jetstream\Jetstream;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use Twilio\Exceptions\ConfigurationException;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
@@ -54,9 +55,8 @@ class SendMessage extends Component
     }
 
     /**
-     * @param Request $request
-     * @throws \Twilio\Exceptions\ConfigurationException
-     * @throws \Twilio\Exceptions\TwilioException
+     * @throws ConfigurationException
+     * @throws TwilioException
      */
     public function addNumber()
     {
@@ -91,7 +91,7 @@ class SendMessage extends Component
     }
 
     /**
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function send()
     {
@@ -119,6 +119,9 @@ class SendMessage extends Component
         $this->message = Message::make();
     }
 
+    /**
+     * @return Application|Factory|View
+     */
     public function render()
     {
         return view('dashboard', [

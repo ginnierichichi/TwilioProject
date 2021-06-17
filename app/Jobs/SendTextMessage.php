@@ -5,15 +5,12 @@ namespace App\Jobs;
 use App\Api\Twilio;
 use App\Models\Message;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\Redis\LimiterTimeoutException;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Redis;
-use Twilio\Exceptions\TwilioException;
-use Twilio\Rest\Client;
 
 class SendTextMessage implements ShouldQueue
 {
