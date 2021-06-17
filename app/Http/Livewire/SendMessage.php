@@ -45,7 +45,7 @@ class SendMessage extends Component
      */
     public function updateStatus(Message $message): void
     {
-        if ($this->messageId && $message->status !== 'delivered') {
+        if ($this->messageId && $message->status !== 'delivered' && $message->sid) {
             try {
                 (new Twilio())->updateStatus($message);
             } catch (TwilioException $e) {

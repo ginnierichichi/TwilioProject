@@ -37,7 +37,10 @@ class Twilio
                 'statusCallBack' => 'https://a6ccdbb5a2fd.ngrok.io/callback',
             ] );
 
-        $message->sid = $response->sid;
+
+            $message->sid = $response->sid;
+
+
         $message->status = $response->status;
         $message->save();
     }

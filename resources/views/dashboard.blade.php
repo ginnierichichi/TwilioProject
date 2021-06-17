@@ -56,8 +56,10 @@
                                                                     <i class="fas fa-check text-gray-400"></i>
                                                                 @elseif ($message->status === 'delivered')
                                                                     <i class="fas fa-check text-green-300"></i>
-                                                                @else
+                                                                @elseif ($message->status === 'failed')
                                                                     <i class="fas fa-times text-red-300"></i>
+                                                                @else
+                                                                    <i class="fas fa-ellipsis-h text-gray-400"></i>
                                                                 @endif
                                                             </div>
                                                         </div>
