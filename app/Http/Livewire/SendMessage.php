@@ -2,12 +2,15 @@
 
 namespace App\Http\Livewire;
 
+use App\Api\Twilio;
 use App\Jobs\SendTextMessage;
 use App\Models\AddressBook;
 use App\Models\Message;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
+use http\Env\Request;
 use Livewire\Component;
+use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
 class SendMessage extends Component
@@ -18,6 +21,7 @@ class SendMessage extends Component
     public AddressBook $number;
     public Message $message;
     public $messageId;
+    public $status;
 
     public function rules()
     {
@@ -33,14 +37,55 @@ class SendMessage extends Component
         $this->message = Message::make();
     }
 
+    /**
+     * @param  Message  $message
+     */
+    public function updateStatus(Message $message): void
+    {
+        if ($this->messageId && $message->status !== 'delivered') {
+            try {
+                (new Twilio())->updateStatus($message);
+            } catch (TwilioException $e) {
+            }
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @throws \Twilio\Exceptions\ConfigurationException
+     * @throws \Twilio\Exceptions\TwilioException
+     */
     public function addNumber()
     {
-        $this->validate([ 'number.phone' => 'required|unique:address_books|numeric',]);
+//        $data = $request->validate([
+//
+//            'number.phone' => 'required|unique:users|numeric',
+//        ]);
+//
+//        $twilio_sid = config('services.twilio.key');
+//        $token = config('services.twilio.secret');
+//        $twilio_verify_sid = config('services.twilio.verify');
+//
+//
+//        $twilio = new Client($twilio_sid, $token);
+//        $twilio->verify->v2->services($twilio_verify_sid)
+//            ->verifications
+//            ->create($data['phone_number'], "sms");
+//        User::create([
+//            'name' => $data['name'],
+//            'phone_number' => $data['phone_number'],
+//            'password' => Hash::make($data['password']),
+//        ]);
+
+        $this->validate([ 'number.phone' => 'required|numeric',]);
         $this->number->save();
 
         $this->number = AddressBook::make();
     }
 
+    /**
+     * @param $messageId
+     */
     public function openMessage($messageId)
     {
         $this->messageId = $messageId;
@@ -49,6 +94,9 @@ class SendMessage extends Component
     //to do: Verify phone number through twilio
     // status callback to update if delivered or failed.
 
+    /**
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function send()
     {
         $this->validateOnly('message.body');
@@ -70,10 +118,6 @@ class SendMessage extends Component
 
             session()->flash('error',"Slow down! Please wait another $exception->secondsUntilAvailable seconds to log in." );
             return;
-
-//            $this->addError('email', "Slow down! Please wait another $exception->secondsUntilAvailable seconds to log in.");
-//
-//            return;
         }
 
         $this->message = Message::make();

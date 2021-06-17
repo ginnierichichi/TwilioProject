@@ -47,7 +47,7 @@
                                                         <div class="px-4 py-3 rounded-xl inline-block rounded-br-none bg-blue-500 text-white">
                                                             {{ $message->body  }}
                                                         </div>
-                                                            <div class="items-end flex justify-end">
+                                                            <div class="items-end flex justify-end" wire:poll.750ms="updateStatus({{ $message }})">
                                                                 @if($message->status === 'queued')
                                                                     <i class="fas fa-check text-gray-400"></i>
                                                                 @elseif ($message->status === 'delivered')

@@ -16,7 +16,8 @@
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.0",
         "predis/predis": "^1.1",
-        "twilio/sdk": "^6.24"
+        "twilio/sdk": "^6.24",
+        "ext-http": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

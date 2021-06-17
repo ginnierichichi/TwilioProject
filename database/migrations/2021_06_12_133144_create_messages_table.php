@@ -18,7 +18,8 @@ class CreateMessagesTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('address_book_id')->constrained()->onDelete('cascade');
             $table->string('body');
-            $table->string('status')->default('pending');
+            $table->string('status')->default('queued');
+            $table->string('sid')->nullable();
             $table->timestamps();
         });
     }

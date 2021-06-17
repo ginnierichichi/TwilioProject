@@ -33,7 +33,8 @@ return [
     'twilio' => [
         'key' => env('TWILIO_SID'),
         'secret' => env('TWILIO_AUTH_TOKEN'),
-        'number' => env('TWILIO_NUMBER')
+        'number' => env('TWILIO_NUMBER'),
+        'verify' => env('TWILIO_VERIFICATION_SID'),
     ]
 
 ];

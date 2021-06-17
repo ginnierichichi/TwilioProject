@@ -22,7 +22,6 @@ class TwilioRequestValidator
 
         $requestData = $request->toArray();
 
-        // Switch to the body content if this is a JSON request.
         if (array_key_exists('bodySHA256', $requestData)) {
             $requestData = $request->getContent();
         }
