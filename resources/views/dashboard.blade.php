@@ -54,7 +54,7 @@
                                                             <div class="items-end flex justify-end" wire:poll.750ms="updateStatus({{ $message }})">
                                                                 @if($message->status === 'queued')
                                                                     <i class="fas fa-check text-gray-400"></i>
-                                                                @elseif ($message->status === 'delivered')
+                                                                @elseif ($message->status === 'delivered' || $message->status === 'sent')
                                                                     <i class="fas fa-check text-green-300"></i>
                                                                 @elseif ($message->status === 'failed')
                                                                     <i class="fas fa-times text-red-300"></i>
