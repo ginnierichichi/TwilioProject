@@ -52,6 +52,7 @@
                                                             {{ $message->body  }}
                                                         </div>
                                                             <div class="items-end flex justify-end" wire:poll.750ms="updateStatus({{ $message }})">
+                                                                <div class="text-xs text-gray-700 pr-1">{{$message->created_at->format('H:i')}}</div>
                                                                 @if($message->status === 'queued')
                                                                     <i class="fas fa-check text-gray-400"></i>
                                                                 @elseif ($message->status === 'delivered' || $message->status === 'sent')
