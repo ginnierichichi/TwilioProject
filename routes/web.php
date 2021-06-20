@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\DisplayMessages;
 use App\Http\Livewire\SendMessage;
 use App\Http\Livewire\VerifyPhoneNumber;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,7 @@ Route::get('/verify', VerifyPhoneNumber::class)->name('verify');
 
 Route::group(['middleware' => 'auth:sanctum'], static function () {
     Route::get('/dashboard', SendMessage::class)->name('dashboard');
+    Route::get('/sent-messages', DisplayMessages::class)->name('sent-messages');
 });
 
 Route::get('/callback', SendMessage::class)->middleware('twilio.validate')->name('callback');
