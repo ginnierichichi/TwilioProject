@@ -1,5 +1,5 @@
 <div class="py-12 font-monsterrat w-full" >
-    <div class="flex justify-center mx-auto w-full">
+    <div class="flex justify-center mx-auto">
     <x-table>
             <x-slot name="head">
                 <x-table.heading>Recipients number</x-table.heading>
@@ -33,7 +33,7 @@
                     <x-table.row>
                         <x-table.cell colspan="3">
                             <div class="text-center text-lg font-medium py-6 text-cool-gray-500">
-                                No meeting rooms have been created.
+                                No Messages sent yet.
                             </div>
                         </x-table.cell>
                     </x-table.row>
