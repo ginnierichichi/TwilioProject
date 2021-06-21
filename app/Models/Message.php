@@ -15,6 +15,16 @@ class Message extends Model
      */
     protected $fillable = ['body', 'status'];
 
+    public function getStatusColourAttribute()
+    {
+        return [
+            'queued' => 'gray',
+            'delivered' => 'green',
+            'sent' => 'green',
+            'failed' => 'red',
+        ][$this->status ?? 'gray'];
+    }
+
     /**
      * @return BelongsTo
      */

@@ -1,4 +1,4 @@
-<div class="py-12 font-monsterrat w-full">
+<div class="py-12 font-monsterrat w-full" >
     <div class="flex justify-center mx-auto w-full">
     <x-table>
             <x-slot name="head">
@@ -24,7 +24,7 @@
                             {{ $message->created_at->format('d, M Y') }} at {{ $message->created_at->format('H:i') }}
                         </x-table.cell>
                         <x-table.cell>
-                            <div class="flex justify-center bg-green-200 rounded-lg px-4 py-2">
+                            <div class="flex justify-center bg-{{ $message->status_colour }}-200 rounded-lg px-4 py-2">
                                 {{ $message->status }}
                             </div>
                         </x-table.cell>
