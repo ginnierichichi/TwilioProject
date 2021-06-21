@@ -31,9 +31,10 @@
                     </x-table.row>
                 @empty
                     <x-table.row>
-                        <x-table.cell colspan="3">
+                        <x-table.cell colspan="4">
                             <div class="text-center text-lg font-medium py-6 text-cool-gray-500">
-                                No Messages sent yet.
+                                <div>No Messages sent yet.</div>
+                                <a class="underline hover:text-green-300" href="{{ route('dashboard') }}">Send a message?</a>
                             </div>
                         </x-table.cell>
                     </x-table.row>
